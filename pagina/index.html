@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PokéDex</title>
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="/bootstrap-icons/bootstrap-icons.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css';">
+  
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body class="bg-dark text-light min-vh-100 d-flex flex-column">
+
+  <div class="bg-glow"></div>
+
+  <div class="container py-4">
+    
+    <header class="text-center mb-4">
+      <h1 class="display-5 fw-bold text-warning mb-1">PokéDex CRUD</h1>
+    </header>
+
+    <section class="row justify-content-center mb-4">
+      <div class="col-12 col-md-6 col-lg-5">
+        <form id="createForm" class="search-box p-1 d-flex align-items-center shadow-lg rounded-pill bg-dark border border-secondary">
+          <i class="bi bi-search text-warning fs-6 ms-3 me-2"></i>
+          <input 
+            type="text" 
+            id="pokeSearch" 
+            class="form-control form-control-sm bg-transparent border-0 text-white shadow-none me-2" 
+            placeholder="Buscar por nombre o ID..." 
+            required
+          >
+          <button type="submit" id="submitBtn" class="btn btn-warning btn-sm px-3 py-1 rounded-pill fw-bold">
+            <i class="bi bi-download"></i> Importar
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Grid responsive con las tarjetas lado a lado -->
+    <section>
+      <div id="pokemonGrid" class="row g-3 justify-content-start"></div>
+    </section>
+
+  </div>
+
+  <script>
+    async function loadPokemons() {
+      const res = await fetch('/api/pokemons');
+      const pokemons = await res.json();
+      const grid = document.getElementById('pokemonGrid');
+      grid.innerHTML = '';
+
+      if (pokemons.length === 0) {
+        grid.innerHTML = `
+          <div class="col-12 text-center text-muted py-5">
+            <i class="bi bi-inbox display-4 mb-2 d-block"></i>
+            <h5>No hay Pokémon guardados aún</h5>
+          </div>
+        `;
+        return;
+      }
+
+      pokemons.forEach(p => {
+        const formattedId = String(p.id).padStart(3, '0');
+        
+        const weaknessesHtml = (p.weaknesses || []).map(w => 
+          `<span class="badge bg-danger text-capitalize me-1 mb-1 tiny-badge">${w}</span>`
+        ).join('');
+
+        const strengthsHtml = (p.strengths || []).map(s => 
+          `<span class="badge bg-success text-capitalize me-1 mb-1 tiny-badge">${s}</span>`
+        ).join('');
+
+        const typesHtml = (p.types || []).map(t =>
+          `<span class="badge bg-secondary text-capitalize mx-1 tiny-badge">${t}</span>`
+        ).join('');
+
+        // Evoluciones en formato HORIZONTAL y COMPACTO
+        let evolutionsHtml = '';
+        if (p.evolutions && p.evolutions.length > 0) {
+          const evoItems = p.evolutions.map((evo, idx) => `
+            <div class="evo-item text-center">
+              <div class="evo-circle mx-auto">
+                <img src="${evo.image}" alt="${evo.name}">
+              </div>
+              <div class="fw-bold text-capitalize text-white tiny-text mt-1">${evo.name}</div>
+              <div class="text-muted tiny-text">N.º ${String(evo.id).padStart(4, '0')}</div>
+              <span class="badge bg-warning text-dark text-capitalize tiny-badge mt-1">${evo.types[0] || ''}</span>
+            </div>
+            ${idx < p.evolutions.length - 1 ? '<i class="bi bi-chevron-right text-muted fs-6 align-self-center mx-1"></i>' : ''}
+          `).join('');
+
+          evolutionsHtml = `
+            <div class="evolutions-box rounded-3 p-2 mt-2">
+              <div class="text-uppercase fw-bold text-muted tiny-text mb-2 text-start">Evoluciones</div>
+              <div class="d-flex align-items-center justify-content-center flex-wrap gap-1">
+                ${evoItems}
+              </div>
+            </div>
+          `;
+        }
+
+        grid.innerHTML += `
+          <div class="col-12 col-sm-6 col-lg-4">
+            <div class="poke-card h-100 p-3 rounded-4 position-relative d-flex flex-column justify-content-between border border-secondary bg-dark">
+              
+              <span class="position-absolute top-0 end-0 m-2 poke-id fw-bold">#${formattedId}</span>
+
+              <div>
+                <!-- Imagen principal pequeña -->
+                <div class="text-center my-2 position-relative">
+                  <img src="${p.image}" alt="${p.name}" class="poke-img img-fluid">
+                </div>
+
+                <!-- Nombre y Tipos -->
+                <div class="text-center mb-2">
+                  <h5 class="fw-bold text-capitalize text-white mb-1">${p.name}</h5>
+                  <div class="d-flex justify-content-center flex-wrap gap-1">
+                    ${typesHtml}
+                  </div>
+                </div>
+
+                <!-- Stats Grid reducidas -->
+                <div class="stats-grid rounded-3 p-2 my-2 bg-black bg-opacity-50">
+                  <div class="row g-1 text-center tiny-text">
+                    <div class="col-6"><span class="text-muted">HP:</span> <strong>${p.stats.hp}</strong></div>
+                    <div class="col-6"><span class="text-muted">ATK:</span> <strong>${p.stats.attack}</strong></div>
+                    <div class="col-6"><span class="text-muted">DEF:</span> <strong>${p.stats.defense}</strong></div>
+                    <div class="col-6"><span class="text-muted">SPD:</span> <strong>${p.stats.speed}</strong></div>
+                  </div>
+                </div>
+
+                <!-- Debilidades y Fortalezas -->
+                <div class="relations-box mt-2 text-start">
+                  <div class="mb-1">
+                    <span class="text-uppercase text-muted fw-bold tiny-text d-block mb-1">Es fuerte con:</span>
+                    <div class="d-flex flex-wrap">${strengthsHtml || '<span class="text-secondary tiny-text">Ninguna</span>'}</div>
+                  </div>
+                  <div>
+                    <span class="text-uppercase text-muted fw-bold tiny-text d-block mb-1">Debilidad:</span>
+                    <div class="d-flex flex-wrap">${weaknessesHtml || '<span class="text-secondary tiny-text">Ninguna</span>'}</div>
+                  </div>
+                </div>
+
+                <!-- Evoluciones -->
+                ${evolutionsHtml}
+
+              </div>
+
+              <!-- Botones Acción -->
+              <div class="d-flex gap-2 mt-3 pt-2 border-top border-secondary">
+                <button onclick="updatePokemon(${p.id}, '${p.name}')" class="btn btn-sm btn-outline-light flex-grow-1 rounded-2 py-1 tiny-text">
+                  <i class="bi bi-pencil me-1"></i> Editar
+                </button>
+                <button onclick="deletePokemon(${p.id})" class="btn btn-sm btn-outline-danger flex-grow-1 rounded-2 py-1 tiny-text">
+                  <i class="bi bi-trash me-1"></i> Borrar
+                </button>
+              </div>
+
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    document.getElementById('createForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const input = document.getElementById('pokeSearch');
+      
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner-border spinner-border-sm me-1"></span>`;
+
+      try {
+        const res = await fetch('/api/pokemons/import', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nameOrId: input.value })
+        });
+        const result = await res.json();
+        if (res.ok) {
+          input.value = '';
+          loadPokemons();
+        } else {
+          alert(result.error);
+        }
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="bi bi-download"></i> Importar`;
+      }
+    });
+
+    async function updatePokemon(id, currentName) {
+      const newName = prompt('Nuevo nombre:', currentName);
+      if (!newName || newName === currentName) return;
+
+      const res = await fetch(`/api/pokemons/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newName })
+      });
+      if (res.ok) loadPokemons();
+    }
+
+    async function deletePokemon(id) {
+      if (!confirm('¿Eliminar Pokémon?')) return;
+      const res = await fetch(`/api/pokemons/${id}`, { method: 'DELETE' });
+      if (res.ok) loadPokemons();
+    }
+
+    loadPokemons();
+  </script>
+</body>
+</html>

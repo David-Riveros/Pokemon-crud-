@@ -1,0 +1,139 @@
+{
+  "pokemons": [
+    {
+      "id": 25,
+      "name": "marihuano",
+      "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",
+      "types": [
+        "electric"
+      ],
+      "stats": {
+        "hp": 35,
+        "attack": 55,
+        "defense": 40,
+        "speed": 90
+      },
+      "weaknesses": [
+        "ground"
+      ],
+      "strengths": [
+        "flying",
+        "water"
+      ],
+      "evolutions": [
+        {
+          "id": 172,
+          "name": "pichu",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/172.png",
+          "types": [
+            "electric"
+          ]
+        },
+        {
+          "id": 25,
+          "name": "pikachu",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",
+          "types": [
+            "electric"
+          ]
+        },
+        {
+          "id": 26,
+          "name": "raichu",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/26.png",
+          "types": [
+            "electric"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "bulbasaur",
+      "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
+      "types": [
+        "grass",
+        "poison"
+      ],
+      "stats": {
+        "hp": 45,
+        "attack": 49,
+        "defense": 49,
+        "speed": 45
+      },
+      "weaknesses": [
+        "flying",
+        "poison",
+        "bug",
+        "fire",
+        "ice",
+        "ground",
+        "psychic"
+      ],
+      "strengths": [
+        "ground",
+        "rock",
+        "water",
+        "grass",
+        "fairy"
+      ],
+      "evolutions": [
+        {
+          "id": 1,
+          "name": "bulbasaur",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "id": 2,
+          "name": "ivysaur",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        },
+        {
+          "id": 3,
+          "name": "venusaur",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png",
+          "types": [
+            "grass",
+            "poison"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 493,
+      "name": "teki",
+      "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/493.png",
+      "types": [
+        "normal"
+      ],
+      "stats": {
+        "hp": 120,
+        "attack": 120,
+        "defense": 120,
+        "speed": 120
+      },
+      "weaknesses": [
+        "fighting"
+      ],
+      "strengths": [],
+      "evolutions": [
+        {
+          "id": 493,
+          "name": "arceus",
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/493.png",
+          "types": [
+            "normal"
+          ]
+        }
+      ]
+    }
+  ]
+}

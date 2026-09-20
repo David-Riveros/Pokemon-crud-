@@ -1,0 +1,94 @@
+body {
+  background-color: #0f141d !important;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #ffffff !important;
+}
+
+/* Tarjeta Principal */
+.poke-card {
+  background-color: #161d2b !important;
+  border: 1px solid #2a3547 !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.poke-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  border-color: #ffc107 !important;
+}
+
+.poke-id {
+  color: #a0aec0 !important;
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+
+/* Imagen de Pokémon principal (pequeña) */
+.poke-img {
+  height: 100px !important;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+}
+
+/* Corrección de colores de texto (para solucionar la visibilidad) */
+.stat-label, 
+.text-muted, 
+.text-secondary, 
+.tiny-text {
+  color: #cbd5e0 !important; /* Gris claro muy legible */
+}
+
+/* Encabezados de secciones dentro de la tarjeta */
+.relations-box .tiny-text,
+.evolutions-box .tiny-text.text-uppercase {
+  color: #e2e8f0 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px;
+}
+
+/* Cajas de Estadísticas y Evoluciones */
+.stats-grid {
+  background-color: #0d111a !important;
+  border: 1px solid #232d3f;
+}
+
+.stats-grid strong {
+  color: #ffffff !important;
+}
+
+.evolutions-box {
+  background-color: #0d111a !important;
+  border: 1px solid #232d3f;
+}
+
+.evo-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #1a2233;
+  border: 2px solid #3b4861;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 4px;
+}
+
+.evo-circle img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Flechas entre evoluciones */
+.bi-chevron-right {
+  color: #ffc107 !important; /* Flecha amarilla chillona */
+}
+
+/* Badges */
+.tiny-badge {
+  font-size: 0.65rem !important;
+  padding: 0.25em 0.6em !important;
+  font-weight: 600;
+}
